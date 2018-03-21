@@ -2,7 +2,7 @@ package com.portal.web.rest.api;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 
 
@@ -16,11 +16,15 @@ import org.springframework.web.bind.annotation.*;
 import com.portal.web.model.EmployeeModel;
 import com.portal.web.rest.ResponseData;
 import com.portal.web.rest.ResponseHandler;
+import com.portal.web.service.AuthService;
 import com.portal.web.service.EmployeeService;
+
 
 @RestController
 @RequestMapping("/api")
-public class EmployeeController {
+public class EmployeeController{
+
+
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
@@ -33,14 +37,17 @@ public class EmployeeController {
 	@SuppressWarnings("rawtypes")
 	@Autowired
     ResponseData Employee;
+	
+	@Autowired
+	AuthService authService;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	 public ResponseHandler listAllEmployees()
 	 {
-
+    	 logger.info(String.valueOf(authService.isAuth()));
     	  List<EmployeeModel> employees = employeeService.getAllEmployeeModel();
-		  if (employees.isEmpty()) {
+		  if (employees.isEmpty() || !authService.isAuth()) {
 		      return new ResponseHandler(HttpStatus.NO_CONTENT);
 	
 		  }
@@ -57,7 +64,7 @@ public class EmployeeController {
     public ResponseHandler getEmployeeByName(@PathVariable("name") String name) {
         EmployeeModel employee = employeeService.getEmployeeModelByfirstName(name);
         
-        if (employee == null) {
+        if (employee == null || employee.isEmpty() || !authService.isAuth()) {
             return new ResponseHandler(HttpStatus.NO_CONTENT);
 
         }

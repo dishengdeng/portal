@@ -66,9 +66,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeModel getEmployeeModelByfirstName(String firstname) {
 		Employee employee = employeeRepository.findByEmployeename(firstname);
 		EmployeeModel employeeModel = new EmployeeModel();
-		employeeModel.setFirstname(employee.getFirstName());
-		employeeModel.setLastname(employee.getLastName());
-		employeeModel.setDescription(employee.getDescription());
+		if(employee!=null)
+		{
+			employeeModel.setFirstname(employee.getFirstName());
+			employeeModel.setLastname(employee.getLastName());
+			employeeModel.setDescription(employee.getDescription());
+		}
+
 		return employeeModel;
 	}
 
@@ -78,15 +82,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<EmployeeModel> allEmployee = new ArrayList<EmployeeModel>();
 		
 		List<Employee> employees=employeeRepository.findAll();
-		
-		for(Employee employee:employees)
+		if(!employees.isEmpty())
 		{
-			EmployeeModel employeeModel = new EmployeeModel();
-			employeeModel.setFirstname(employee.getFirstName());
-			employeeModel.setLastname(employee.getLastName());
-			employeeModel.setDescription(employee.getDescription());
-			allEmployee.add(employeeModel);
+			for(Employee employee:employees)
+			{
+				EmployeeModel employeeModel = new EmployeeModel();
+				employeeModel.setFirstname(employee.getFirstName());
+				employeeModel.setLastname(employee.getLastName());
+				employeeModel.setDescription(employee.getDescription());
+				allEmployee.add(employeeModel);
+			}
 		}
+
 		
 		return allEmployee;
 	}

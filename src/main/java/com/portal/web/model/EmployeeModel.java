@@ -2,6 +2,7 @@ package com.portal.web.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EmployeeModel {
@@ -55,6 +56,9 @@ public class EmployeeModel {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	
+	@JsonIgnore
+	public boolean isEmpty()
+	{
+		return this.firstname == null && this.lastname ==null;
+	}
 }

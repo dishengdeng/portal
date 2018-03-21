@@ -38,6 +38,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.portal.web.util.ApiKey;
 
 /**
  * @author Mike
@@ -60,7 +63,8 @@ public class portalApplication extends WebMvcConfigurerAdapter{
 	private static final String PROP_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
 	private static final String PROP_ENTITYMANAGER_PACKAGES_TO_SCAN = "db.entitymanager.packages.to.scan";
 	private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
-
+	private static final String PROP_API_KEY = "api.key";
+	
 	@Resource
 	private Environment env;
 
@@ -107,6 +111,11 @@ public class portalApplication extends WebMvcConfigurerAdapter{
 		return transactionManager;
 	}
 
+	@Bean
+	public ApiKey keyManager()
+	{
+		return new ApiKey(env.getRequiredProperty(PROP_API_KEY));
+	}
 	private Properties getHibernateProperties() {
 		Properties properties = new Properties();
 		properties.put(PROP_HIBERNATE_DIALECT, env.getRequiredProperty(PROP_HIBERNATE_DIALECT));
@@ -120,11 +129,18 @@ public class portalApplication extends WebMvcConfigurerAdapter{
 		return properties;
 	}
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-	}
-	
+//	@Override
+//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+//	}
+//	
+//	@Bean
+//	public InternalResourceViewResolver viewResolver() {
+//		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();		
+//		viewResolver.setPrefix("/webapp/WEB-INF/views/");
+//		viewResolver.setSuffix(".html");
+//		return viewResolver;
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(portalApplication.class, args);
