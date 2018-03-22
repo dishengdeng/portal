@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EmployeeModel {
 	
-	@JsonProperty("FirstName:")
+	@JsonProperty("FirstName")
 	private  String firstname;
-	@JsonProperty("LastName:")
+	@JsonProperty("LastName")
 	private  String lastname;
-	@JsonProperty("Description:")
+	@JsonProperty("Description")
 	private  String description;	
 
 

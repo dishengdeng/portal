@@ -15,13 +15,15 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		client({method: 'GET', path: '/api/employees'}).done(response => {
-			this.setState({employees: response.entity._embedded.employees});
+		client({method: 'GET', path: '/api/users'}).done(response => {
+	
+			this.setState({employees: response.entity.data});
 		});
 	}
 
 	render() {
 		return (
+			
 			<EmployeeList employees={this.state.employees}/>
 		)
 	}
@@ -30,10 +32,15 @@ class App extends React.Component {
 
 // tag::employee-list[]
 class EmployeeList extends React.Component{
+	constructor(props) {
+		super(props);
+		
+	}
+
 	render() {
-		var employees = this.props.employees.map(employee =>
-			<Employee key={employee._links.self.href} employee={employee}/>
-		);
+	
+		var demployees = this.props.employees.map(employee => <Employee key={employee.FirstName} employee={employee}/>);
+
 		return (
 			<table>
 				<tbody>
@@ -42,7 +49,7 @@ class EmployeeList extends React.Component{
 						<th>Last Name</th>
 						<th>Description</th>
 					</tr>
-					{employees}
+					{demployees}
 				</tbody>
 			</table>
 		)
@@ -52,12 +59,16 @@ class EmployeeList extends React.Component{
 
 // tag::employee[]
 class Employee extends React.Component{
+
+
 	render() {
+
 		return (
 			<tr>
-				<td>{this.props.employee.firstName}</td>
-				<td>{this.props.employee.lastName}</td>
-				<td>{this.props.employee.description}</td>
+				
+				<td>{this.props.employee.FirstName}</td>
+				<td>{this.props.employee.LastName}</td>
+				<td>{this.props.employee.Description}</td>
 			</tr>
 		)
 	}

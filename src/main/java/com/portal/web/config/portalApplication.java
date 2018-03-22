@@ -46,7 +46,7 @@ import com.portal.web.util.ApiKey;
  * @author Mike
  */
 // tag::code[]
-@EnableWebMvc
+
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({ "com.portal.web" })
