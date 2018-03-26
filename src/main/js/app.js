@@ -3,7 +3,7 @@
 // tag::vars[]
 const React = require('react');
 const ReactDOM = require('react-dom');
-const client = require('./client');
+const client = require('./services/client');
 // end::vars[]
 
 // tag::app[]
